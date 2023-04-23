@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - dev
     tags: ['*']
   pull_request:
 concurrency:
@@ -18,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.3'
+          - '1.7'
           - '1.8'
           - 'nightly'
         os:
@@ -27,7 +28,7 @@ jobs:
           - x64
           - x86
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
