@@ -49,7 +49,7 @@ lineplot(post.axes[1].val, post)
 ```
 ![coin mass](img/coin_line.png)
 
-The posterior probability mass starts piling up around 0.2, as expected. By default, each parameter (just `p` in this case) is evaluated at 100 discrete values. We can choose how many grid samples we want for each parameter by passing them as a NamedTuple. For example
+The posterior probability mass starts piling up around 0.2, as expected. By default, each parameter (just `p` in this case) is evaluated at 101 discrete values. We can choose how many grid samples we want for each parameter by passing them as a NamedTuple. For example
 ```julia
 post = gridapproximation(
     #likelihood
@@ -134,3 +134,30 @@ sampleposterior(post) |> DataFrame
      9 │ 0.227062    0.264916
     10 │ 0.668357    0.211933
 ```
+
+### Prior Predictive Simulation
+
+To approximate the joint prior density, just use the same `gridapproximation` function without a log-likelihood function. Pass the parameters only. For example
+```julia
+post = gridapproximation(
+    μ = (
+        prior=Normal(),
+        q=0.01
+    ),
+    σ = (
+        prior=Exponential(),
+        q=0.1
+    )
+)
+
+x, y = post.axes[2].val, post.axes[1].val
+
+heatmap(
+    post,
+    xfact=diff(x)[1],
+    yfact=diff(y)[1],
+    xoffset=0,
+    yoffset=minimum(y) - mean(y)
+)
+```
+![prior](img/linear_prior.png)

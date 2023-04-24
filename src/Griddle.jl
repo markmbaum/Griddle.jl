@@ -80,6 +80,10 @@ function gridapproximation(loglikelihood::ℱ; params...)::AxisArray where {ℱ 
     )
 end
 
+function gridapproximation(; params...)::AxisArray
+    gridapproximation((x...) -> 0.; params...)
+end
+
 function sampleposterior(post::AxisArray, N::Int=10_000; rng=Xoshiro())::Dict
 
     #names/symbols of the parameters
