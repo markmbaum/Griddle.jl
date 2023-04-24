@@ -16,7 +16,7 @@ using Test
     g = priorgrid(Normal())
     @test minimum(g) ≈ -maximum(g)
 
-    g = priorgrid((prior=Normal(), n=10, q=0.25))
+    g = priorgrid((prior=Normal(), n=10, q=0.5))
     @test length(g) == 10
     @test minimum(g) ≈ -0.6744897501960818
     @test maximum(g) ≈ 0.6744897501960818

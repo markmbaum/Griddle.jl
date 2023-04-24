@@ -75,7 +75,7 @@ histogram(samp[:p])
 
 A super basic linear regression. We have eleven points, a single feature, and no intercept. We're estimating the slope (β) and the variance (σ).
 ```julia
-using Griddle, UnicodePlots
+using Griddle, UnicodePlots, LinearAlgebra
 
 x = 0:0.2:1
 β = 0.5
@@ -89,7 +89,7 @@ post = gridapproximation(
     β = (
         prior=Normal(0,1),
         n=1000,
-        q=0.1
+        q=0.9
     ),
     σ = Exponential(1)
 )
@@ -98,9 +98,9 @@ Notice a few things
 * The data, our `x` and `y` vectors, are enclosed by the likelihood function
 * We have to *sum* the log likelihoods over each data point
 * The posterior grid will now have two dimensions because there are two parameters
-* We restricted the grid samples for β between the 0.1th and 0.9th quantiles of its prior and asked for 1000 samples in that interval
+* We restricted the grid samples for β to the middle 90 % of its prior probability mass and asked for 1000 samples in that interval
 ```julia
-lineplot(post.axes[1].val, sum(post, dims=2)[:,1] |> normalize)
+lineplot(post.axes[1].val, normalize(sum(post, dims=2)[:,1], 1))
 ```
 ![beta](img/linear_beta_marg.png)
 
@@ -142,11 +142,11 @@ To approximate the joint prior density, just use the same `gridapproximation` fu
 post = gridapproximation(
     μ = (
         prior=Normal(),
-        q=0.01
+        q=0.995
     ),
     σ = (
         prior=Exponential(),
-        q=0.1
+        q=0.8
     )
 )
 
