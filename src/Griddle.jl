@@ -17,7 +17,7 @@ gridlimit(xsupport::𝒯, xq::𝒯) where {𝒯<:Real} = isinf(xsupport) ? xq : 
 priorgrid(prior::UD, args...) = prior |> support
 
 function priorgrid(prior::UC; n::Int=101, q::Real=0.99)
-    @assert 0 < q < 1 "The quantile used for prior range selection must be greater than zero and less than one, but you chose $q. This number should be a small number close to zero, like q=1e-2, which will select a range of values between the prior distribution's qth and (1-q)th quantiles, unless it is bounded on one or both ends."
+    @assert 0 < q < 1 "The quantile used for prior range selection must be greater than zero and less than one, but you chose $q. This number selects  the middle qth of the probabibility mass for the grid of prior/parameter values, unless it is bounded on one or both ends."
     range(
         gridlimit(prior |> support |> minimum, quantile(prior, (1 - q)/2)),
         gridlimit(prior |> support |> maximum, quantile(prior, (1 + q)/2)),
