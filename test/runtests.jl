@@ -29,6 +29,9 @@ using Test
     @test length(g) == 11
     @test all(g .== 0:10)
 
+    g = priorgrid((prior=Uniform(), grid=LinRange(0, 1, 10)))
+    @test all(g .== LinRange(0, 1, 100))
+
 end
 
 @testset "Inference" begin
