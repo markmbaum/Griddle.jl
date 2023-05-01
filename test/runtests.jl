@@ -46,6 +46,26 @@ end
 
 end
 
+@testset "Joint Prior" begin
+
+    gjp = gridapproximation(
+        x = (
+            prior = Exponential(),
+            grid = LinRange(0, 1, 10)
+        ),
+        y = (
+            prior = Normal(),
+            grid = LinRange(0, 1, 10)
+        )
+    )
+    x = pdf.(Exponential(), LinRange(0, 1, 10))
+    y = pdf.(Normal(), LinRange(0, 1, 10))
+    jp = prod.(Iterators.product(x,y))
+    jp ./= sum(jp)
+    @test all(gjp .≈ jp)
+
+end
+
 @testset "Sampling" begin
 
     rng = Xoshiro(1)
