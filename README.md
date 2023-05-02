@@ -200,7 +200,7 @@ function linreg(β::Float64, σ::Float64, data::Matrix{Float64})::Float64
     return s
 end
 ```
-It can be used in the same way as above, but is about an order of magnitude faster.
+It can be used in the same way as above, but is about an order of magnitude faster. Although it probably doesnt matter very much (use [Turing](https://turing.ml/)).
 
 ```julia
 post = gridapproximation(
